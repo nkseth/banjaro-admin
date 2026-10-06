@@ -1,0 +1,3 @@
+# An internal console — nothing here should be indexed.
+User-agent: *
+Disallow: /
