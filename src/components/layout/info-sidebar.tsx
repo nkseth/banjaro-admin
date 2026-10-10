@@ -13,26 +13,16 @@ import {
   useInfobar
 } from '@/components/ui/infobar';
 
-// Default/fallback data when no content is set
-const defaultData = {
-  title: 'Documentation',
-  sections: [
-    {
-      title: 'Getting Started',
-      description: 'Learn how to get started with this application.',
-      links: [
-        {
-          title: 'Installation Guide',
-          url: '#'
-        }
-      ]
-    }
-  ]
-};
-
 export function InfoSidebar({ ...props }: React.ComponentProps<typeof Infobar>) {
   const { content } = useInfobar();
-  const data = content || defaultData;
+
+  // Only pages that pass `infoContent` show this panel, and only they render a
+  // trigger for it. Without that there is nothing to say, so the panel stays
+  // out of the markup entirely — the starter's "Getting Started / Installation
+  // Guide" placeholder was unreachable text pointing at a dead `#` link.
+  if (!content) return null;
+
+  const data = content;
 
   return (
     <Infobar {...props}>

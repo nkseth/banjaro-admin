@@ -5,6 +5,10 @@ out/
 
 # secrets
 service-account.json
+# Any Firebase service-account key, whatever name it was downloaded under -
+# the console's key is a full admin credential for the Banjaro project.
+*-firebase-adminsdk-*.json
+*serviceAccountKey*.json
 .env
 .env.local
 .env.*.local

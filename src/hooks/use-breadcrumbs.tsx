@@ -28,12 +28,23 @@ export function useBreadcrumbs() {
       return routeMapping[pathname];
     }
 
-    // If no exact match, fall back to generating breadcrumbs from the path
+    // If no exact match, build the trail segment by segment. Each segment
+    // takes its label from `routeMapping` when it has one, so an account page
+    // reads "Banjaro / Accounts / <uid>" rather than "Dashboard / Users / …".
+    //
+    // Only a plain lowercase route name gets title-cased: a uid is
+    // case-sensitive, and capitalising it showed an id that was not the one
+    // the crumb linked to.
     const segments = pathname.split('/').filter(Boolean);
     return segments.map((segment, index) => {
       const path = `/${segments.slice(0, index + 1).join('/')}`;
+      const mapped = routeMapping[path];
       return {
-        title: segment.charAt(0).toUpperCase() + segment.slice(1),
+        title: mapped
+          ? mapped[mapped.length - 1].title
+          : /^[a-z][a-z-]*$/.test(segment)
+            ? segment.charAt(0).toUpperCase() + segment.slice(1)
+            : segment,
         link: path
       };
     });
